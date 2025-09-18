@@ -1,4 +1,4 @@
-package com.shsb.atfbook.application.service;
+package com.shsb.atfbook.application.gpt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shsb.atfbook.domain.gpt.GptMessage;

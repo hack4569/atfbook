@@ -1,4 +1,4 @@
-package com.shsb.atfbook.application.dto;
+package com.shsb.atfbook.application.gpt;
 
 import com.shsb.atfbook.domain.gpt.GptMessage;
 import lombok.*;

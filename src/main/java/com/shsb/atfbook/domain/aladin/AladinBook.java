@@ -1,6 +1,6 @@
 package com.shsb.atfbook.domain.aladin;
 
-import com.shsb.atfbook.application.service.GptService;
+import com.shsb.atfbook.application.gpt.GptService;
 import com.shsb.atfbook.domain.gpt.GptResponse;
 import com.shsb.atfbook.domain.shared.BookRecommendUtil;
 import com.shsb.atfbook.domain.shared.RcmdConst;
@@ -66,16 +66,12 @@ public class AladinBook {
 
         //책소개
         this.setUserBookDesc(bookCommentList);
-
         //편집자 추천
         this.setUserMdRecommend(bookCommentList);
-
         //Gpt 추천
         this.setUserGptComment(gptService, bookCommentList);
-
         //책 속에서
         this.setUserPhrase(bookCommentList);
-
         //목차
         this.setUserToc(bookCommentList);
     }
