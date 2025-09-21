@@ -3,7 +3,7 @@ package com.shsb.atfbook.domain.aladin;
 import com.shsb.atfbook.application.gpt.GptService;
 import com.shsb.atfbook.domain.gpt.GptResponse;
 import com.shsb.atfbook.domain.shared.BookRecommendUtil;
-import com.shsb.atfbook.domain.shared.RcmdConst;
+import com.shsb.atfbook.domain.recommend.RcmdConst;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.shsb.atfbook.domain.shared;
+package com.shsb.atfbook.domain.recommend;
 
 public class RcmdConst {
     // 슬라이드에 표시되는 최소 글자 수
