@@ -1,0 +1,65 @@
+package com.shsb.atfbook.domain.aladin;
+
+import com.shsb.atfbook.domain.category.Category;
+import com.shsb.atfbook.domain.history.History;
+import com.shsb.atfbook.domain.recommend.RcmdConst;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.ObjectUtils;
+
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.List;
+
+@Slf4j
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AladinItemListRequest {
+    private int startIdx = 1;
+    private int startN = 1;
+    private int maxResults = 10;
+    private int showBooksCount = RcmdConst.SHOW_BOOKS_COUNT;
+    private long memberId;
+    @Builder.Default
+    private String ttbkey = "ttbhack45691028002";
+    private String itemId;
+    @Builder.Default
+    private String itemIdType = "ISBN13";
+    private int start;
+    private String cover;
+    @Builder.Default
+    private String searchTarget = "Book";
+    @Builder.Default
+    private String querytype = "Title";
+    @Builder.Default
+    private String output = "js";
+    @Builder.Default
+    private String version = "20131101";
+    private String query;
+    @Builder.Default
+    private String optResult = "ebookList,usedList,reviewList,fulldescription,fulldescription2,phraseList,mdrecommend,toc";
+
+    public MultiValueMap<String, String> getApiParamMap(){
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        try {
+            Object obj = this;
+            for (Field field : this.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                if(!ObjectUtils.isEmpty(field.get(obj))){
+                    map.set(field.getName(),field.get(obj).toString());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("AladinApiParam getApiParamMap error : {}", e.getMessage(), e);
+        }
+        return map;
+    }
+
+}

@@ -1,6 +1,6 @@
 package com.shsb.atfbook.application.recommend;
 
-import com.shsb.atfbook.application.aladin.AladinItemListRequest;
+import com.shsb.atfbook.domain.aladin.AladinItemListRequest;
 import com.shsb.atfbook.application.category.CategoryService;
 import com.shsb.atfbook.domain.category.Category;
 import com.shsb.atfbook.domain.history.History;
@@ -20,8 +20,10 @@ public class RecommendRequest {
     private Member member;
     //private CategoryDto categoryDto;
     private int slideN = 1;
-    List<History> histories;
-    HashSet<Integer> cids;
+    private List<History> histories;
+    private HashSet<Integer> cids;
+    private String queryType;
+    private int startIdx;
 
     public int getSlideN() {
         return slideN == 0 ? 1 : slideN;
