@@ -1,6 +1,6 @@
 package com.shsb.atfbook.application.recommend;
 
-import com.shsb.atfbook.domain.aladin.AladinItemListRequest;
+import com.shsb.atfbook.domain.aladin.AladinRequest;
 import com.shsb.atfbook.application.category.CategoryService;
 import com.shsb.atfbook.domain.category.Category;
 import com.shsb.atfbook.domain.history.History;
@@ -29,10 +29,10 @@ public class RecommendRequest {
         return slideN == 0 ? 1 : slideN;
     }
 
-    public RecommendRequest create(CategoryService categoryService) {
-        AladinItemListRequest aladinItemListRequest = new AladinItemListRequest();
+    public static RecommendRequest create(CategoryService categoryService) {
+        RecommendRequest request = new RecommendRequest();
         List<Category> categories = categoryService.findAcceptedCategories();
-        this.cids = categories.stream().map(Category::getCid).collect(Collectors.toCollection(HashSet::new));
-        return this;
+        request.setCids(categories.stream().map(Category::getCid).collect(Collectors.toCollection(HashSet::new)));
+        return request;
     }
 }

@@ -1,7 +1,6 @@
 package com.shsb.atfbook.domain.aladin;
 
-import com.shsb.atfbook.domain.category.Category;
-import com.shsb.atfbook.domain.history.History;
+import com.shsb.atfbook.application.recommend.RecommendRequest;
 import com.shsb.atfbook.domain.recommend.RcmdConst;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.List;
 
 @Slf4j
 @Getter
@@ -19,14 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AladinItemListRequest {
+public class AladinRequest {
     private int startIdx = 1;
     private int startN = 1;
     private int maxResults = 10;
     private int showBooksCount = RcmdConst.SHOW_BOOKS_COUNT;
     private long memberId;
-    @Builder.Default
-    private String ttbkey = "ttbhack45691028002";
     private String itemId;
     @Builder.Default
     private String itemIdType = "ISBN13";
@@ -36,6 +31,7 @@ public class AladinItemListRequest {
     private String searchTarget = "Book";
     @Builder.Default
     private String querytype = "Title";
+    private String filterType;
     @Builder.Default
     private String output = "js";
     @Builder.Default
@@ -62,4 +58,16 @@ public class AladinItemListRequest {
         return map;
     }
 
+    public static AladinRequest create(RecommendRequest recommendRequest){
+        AladinRequest aladinRequest = AladinRequest.builder()
+                .querytype(recommendRequest.getQueryType())
+                .build();
+        return aladinRequest;
+    }
+    public static AladinRequest create(String itemId){
+        AladinRequest aladinRequest = AladinRequest.builder()
+                .itemId(itemId)
+                .build();
+        return aladinRequest;
+    }
 }

@@ -20,28 +20,31 @@ public class AladinService {
     private final Environment env;
     //private final AladinBookRepository aladinBookRepository;
 
-    public List<AladinBook> bookListForBatch(RecommendRequest recommendRequest) {
-        AladinItemListRequest apiParam = AladinItemListRequest.builder()
-                .querytype(recommendRequest.getQueryType())
-                .start(recommendRequest.getStartIdx())
-                .ttbkey(env.getProperty("aladin.ttbkey"))
-                .build();
-        var aladinBooks = this.getApi(AladinConstants.ITEM_LIST, apiParam).getItem();
+    public List<AladinBook> bookListForBatch(AladinRequest aladinRequest) {
+        var aladinBooks = this.getApi(AladinConstants.ITEM_LIST, aladinRequest).getItem();
         if (aladinBooks.isEmpty()) {
             throw new AladinException("상품조회시 데이터가 없습니다.");
         }
         return aladinBooks;
     }
+    //책 상세 조회
+    public AladinBook bookDetail(AladinRequest aladinRequest) {
+        var aladinBooks = this.getApi(AladinConstants.ITEM_LOOKUP, aladinRequest).getItem();
+        if (aladinBooks.isEmpty()) throw new AladinException("상품조회시 데이터가 없습니다.");
+
+        return aladinBooks.get(0);
+    }
 
     //@CircuitBreaker(name = "aladinApi", fallbackMethod = "getApiFallback")
-    private AladinResponse getApi(String path, AladinItemListRequest aladinItemListRequest) {
+    private AladinResponse getApi(String path, AladinRequest aladinRequest) {
         ResponseEntity<AladinResponse> response = null;
         try{
             response = aladinApi
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .path(path)
-                            .queryParams(aladinItemListRequest.getApiParamMap())
+                            .queryParam("ttbkey", env.getProperty("aladin.ttbkey"))
+                            .queryParams(aladinRequest.getApiParamMap())
                             .build()
                     )
                     .retrieve()
