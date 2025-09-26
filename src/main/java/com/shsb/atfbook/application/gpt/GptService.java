@@ -6,6 +6,8 @@ import com.shsb.atfbook.domain.gpt.GptRequest;
 import com.shsb.atfbook.domain.gpt.GptResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -13,12 +15,12 @@ import java.util.List;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class GptService {
-    //@Qualifier("gptApi")
-    private final RestClient gptApi;
+    @Qualifier("gptApi")
+    @Autowired
+    private RestClient gptApi;
 
-    private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
+    private ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
 
     public GptResponse chatGpt(String msg) {
         GptRequest request = GptRequest.builder()

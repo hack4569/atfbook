@@ -19,18 +19,18 @@ import java.lang.reflect.Field;
 public class AladinRequest {
     private int startIdx = 1;
     private int startN = 1;
-    private int maxResults = 10;
+    private int maxResults = 100;
     private int showBooksCount = RcmdConst.SHOW_BOOKS_COUNT;
     private long memberId;
     private String itemId;
     @Builder.Default
     private String itemIdType = "ISBN13";
-    private int start;
+    private int start = 1;
     private String cover;
     @Builder.Default
     private String searchTarget = "Book";
     @Builder.Default
-    private String querytype = "Title";
+    private String querytype = "Bestseller";
     private String filterType;
     @Builder.Default
     private String output = "js";

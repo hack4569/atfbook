@@ -40,7 +40,7 @@ public class BookBatchScheduler {
         int retry = 0;
         int maxRetry = 5;              // 최대 5회 재시도
         var aleadyRegisteredBooks = aladinBookRepository.findAll().stream().map(AladinBook::getItemId).collect(Collectors.toSet());
-        while(aladinBookList.isEmpty() && retry < maxRetry) {
+        while(retry < maxRetry) {
             aladinBookList = this.getAladinBookList(recommendReq);
             var newAladinBooks = aladinBookList.stream().filter(i -> !aleadyRegisteredBooks.contains(i.getItemId())).toList();
             this.saveNewAladinBooks(newAladinBooks);

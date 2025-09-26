@@ -4,27 +4,31 @@ import com.shsb.atfbook.application.recommend.RecommendRequest;
 import com.shsb.atfbook.domain.aladin.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class AladinService {
-    private final RestClient aladinApi;
-    private final Environment env;
+    @Qualifier("aladinApi")
+    @Autowired
+    private RestClient aladinApi;
+
+    @Autowired
+    private Environment env;
     //private final AladinBookRepository aladinBookRepository;
 
     public List<AladinBook> bookListForBatch(AladinRequest aladinRequest) {
         var aladinBooks = this.getApi(AladinConstants.ITEM_LIST, aladinRequest).getItem();
-        if (aladinBooks.isEmpty()) {
-            throw new AladinException("상품조회시 데이터가 없습니다.");
-        }
+        if (ObjectUtils.isEmpty(aladinBooks)) throw new AladinException("상품조회시 데이터가 없습니다.");
         return aladinBooks;
     }
     //책 상세 조회
