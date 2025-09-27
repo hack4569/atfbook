@@ -22,7 +22,7 @@ public class RecommendRequest {
     private int slideN = 1;
     private List<History> histories;
     private HashSet<Integer> cids;
-    private String queryType;
+    private String queryType = "bestseller";
     private int startIdx;
 
     public int getSlideN() {

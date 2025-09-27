@@ -53,7 +53,6 @@ public class BookBatchScheduler {
             List<AladinBook> aladinDetailList = new ArrayList<>();
             newAladinBooks.forEach( aladinBook -> {
                 var aladinDetail = aladinService.bookDetail(AladinRequest.create(aladinBook.getIsbn13()));
-                aladinDetail.setBookCommentList(gptService);
                 aladinDetailList.add(aladinDetail);
             });
             aladinBookRepository.saveAll(aladinDetailList);

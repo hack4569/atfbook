@@ -1,5 +1,6 @@
 package com.shsb.atfbook.application.aladin;
 
+import com.shsb.atfbook.application.gpt.GptService;
 import com.shsb.atfbook.application.recommend.RecommendRequest;
 import com.shsb.atfbook.domain.aladin.*;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class AladinService {
     @Qualifier("aladinApi")
     @Autowired
     private RestClient aladinApi;
+    @Autowired
+    private GptService gptService;
 
     @Autowired
     private Environment env;
@@ -36,7 +39,10 @@ public class AladinService {
         var aladinBooks = this.getApi(AladinConstants.ITEM_LOOKUP, aladinRequest).getItem();
         if (aladinBooks.isEmpty()) throw new AladinException("상품조회시 데이터가 없습니다.");
 
-        return aladinBooks.get(0);
+        var aladinbook = aladinBooks.get(0);
+        //코멘트 세팅
+        aladinbook.setBookCommentList(gptService);
+        return aladinbook;
     }
 
     //@CircuitBreaker(name = "aladinApi", fallbackMethod = "getApiFallback")

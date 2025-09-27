@@ -53,7 +53,9 @@ public class AladinBook {
     @Transient
     private SubInfo subInfo;
     //프리미엄
+    @Transient
     private String fullDescription;
+    @Transient
     private String fullDescription2;
 //    @OneToMany(mappedBy = "aladinBook", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    public List<Review> reviewList;
@@ -74,6 +76,7 @@ public class AladinBook {
         this.setUserPhrase(bookCommentList);
         //목차
         this.setUserToc(bookCommentList);
+        this.bookCommentList = bookCommentList;
     }
 
     private void setUserMdRecommend(List<BookComment> bookCommentList) {
