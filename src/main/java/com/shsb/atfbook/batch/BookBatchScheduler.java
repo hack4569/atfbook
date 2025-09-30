@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,8 +44,14 @@ public class BookBatchScheduler {
         while(retry < maxRetry) {
             aladinBookList = this.getAladinBookList(recommendReq);
             var newAladinBooks = aladinBookList.stream().filter(i -> !aleadyRegisteredBooks.contains(i.getItemId())).toList();
+            recommendService.filter(newAladinBooks);
+            if (ObjectUtils.isEmpty(aladinBookList)){
+                retry ++;
+                continue;
+            } else {
+                retry = 0;
+            }
             this.saveNewAladinBooks(newAladinBooks);
-            retry++;
         }
     }
 
