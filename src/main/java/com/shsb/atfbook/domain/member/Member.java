@@ -46,12 +46,16 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<History> histories = new ArrayList<>();
 
-    public static Member register(MemberRegisterRequest createRequest, PasswordManager passwordManager) {
+    public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
         member.loginId = createRequest.loginId();
-        member.password = passwordManager.hashPassword(createRequest.password());
+        member.password = passwordEncoder.hashPassword(createRequest.password());
 
         return member;
+    }
+
+    public boolean checkPassword(String passwordReq, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.checkPassword(passwordReq, this.password);
     }
 }

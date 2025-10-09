@@ -44,7 +44,7 @@ public class BookBatchScheduler {
         while(retry < maxRetry) {
             aladinBookList = this.getAladinBookList(recommendReq);
             var newAladinBooks = aladinBookList.stream().filter(i -> !aleadyRegisteredBooks.contains(i.getItemId())).toList();
-            recommendService.filter(newAladinBooks);
+            recommendService.filter(newAladinBooks, recommendReq);
             if (ObjectUtils.isEmpty(aladinBookList)){
                 retry ++;
                 continue;
