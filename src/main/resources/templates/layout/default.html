@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html th:fragment="layout (content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+
+    <!-- 신규-->
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/swiper-bundle.css}">
+    <link rel="stylesheet" th:href="@{/css/device.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>책추천</title>
+</head>
+<body class="device">
+    <script th:src="@{/js/msg.js}"></script>
+    <th:block th:replace="${content}"></th:block>
+    <script th:src="@{/js/lodash.min.js}"></script>
+    <script th:src="@{/js/swiper-bundle.min.js}"></script>
+    <script th:src="@{/js/application.js}"></script>
+</body>
+</html>

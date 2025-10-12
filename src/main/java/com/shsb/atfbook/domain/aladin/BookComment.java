@@ -23,11 +23,10 @@ public class BookComment {
 
     private String type;
 
+    private int aladinBookItemId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private AladinBook aladinBook;
-
-    private int aladinItemId;
 
     public static BookComment create(String comment, String type) {
         BookComment bookComment = new BookComment();

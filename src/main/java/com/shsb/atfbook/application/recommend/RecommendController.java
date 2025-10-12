@@ -9,6 +9,7 @@ import com.shsb.atfbook.domain.aladin.AladinException;
 import com.shsb.atfbook.domain.aladin.AladinRequest;
 import com.shsb.atfbook.domain.history.History;
 import com.shsb.atfbook.domain.member.Member;
+import com.shsb.atfbook.domain.recommend.RcmdConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -29,23 +30,48 @@ public class RecommendController {
 
     @GetMapping("")
     public String index(Model model, RecommendRequest recommendRequest, @Login Member loginMember) {
-        List<AladinBook> aladinBookList = this.getAladinBookList(recommendRequest, loginMember);
-        return "";
+        List<RecommendView> recommendViewList = this.getAladinBookList(recommendRequest, loginMember);
+
+        model.addAttribute("recommendList", recommendViewList);
+        model.addAttribute("loginMember", loginMember);
+        if (loginMember == null) {
+            model.addAttribute("loginHistoryMsg", "로그인하시면 봤던 책정보는 보이지 않습니다.");
+        }
+
+        return "recommend/index";
     }
 
-    private List<AladinBook> getAladinBookList(RecommendRequest recommendRequest, Member loginMember) {
-        List<History> histories = historyRepository.findHistoriesByLoginId(loginMember.getLoginId());
-        var aladinBooks = aladinBookRepository.findAll(Sort.by(Sort.Direction.DESC, "itemId"));
+    private List<RecommendView> getAladinBookList(RecommendRequest recommendRequest, Member loginMember) {
+        List<History> histories = historyRepository.findHistoriesByMemberId(loginMember.getId());
+        var aladinBooks = aladinService.findAll();
         if (ObjectUtils.isEmpty(aladinBooks)) throw new AladinException("더이상 추천드릴 책이 없습니다.");
         recommendRequest.setHistories(histories);
         recommendService.filterForUser(aladinBooks, recommendRequest);
         if (ObjectUtils.isEmpty(aladinBooks)) {
-            historyRepository.deleteHistoriesByMemberId(loginMember.getLoginId());
+            historyRepository.deleteHistoriesByMemberId(loginMember.getId());
             return this.getAladinBookList(recommendRequest, loginMember);
         }
-        return aladinBooks;
-        //AladinRequest aladinRequest = AladinRequest.create(recommendRequest, histories);
-        //return aladinService.bookListForBatch(aladinRequest);
+        return this.showUserData(aladinBooks);
+    }
+
+    private List<RecommendView> showUserData(List<AladinBook> aladinBooks) {
+
+        List<RecommendView> slideRecommendList = new ArrayList<>();
+        for (int i = 0; i < RcmdConst.SHOW_BOOKS_COUNT; i++) {
+            var book = aladinBooks.get(i);
+            RecommendView recommendDto = RecommendView.builder()
+                    .itemId(book.getItemId())
+                    .title(book.getTitle())
+                    .link(book.getLink())
+                    .cover(book.getCover())
+                    .recommendCommentList(book.getBookCommentList())
+                    .author(book.getAuthor())
+                    .categoryName(book.getCategoryName())
+                    .build();
+            slideRecommendList.add(recommendDto);
+        }
+        return slideRecommendList;
+
     }
 
 

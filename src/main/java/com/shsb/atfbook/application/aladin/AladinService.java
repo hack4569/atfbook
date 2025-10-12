@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -24,10 +26,14 @@ public class AladinService {
     private RestClient aladinApi;
     @Autowired
     private GptService gptService;
-
     @Autowired
     private Environment env;
-    //private final AladinBookRepository aladinBookRepository;
+    @Autowired
+    private AladinBookRepository aladinBookRepository;
+    @Autowired
+    private BookCommentRepository commentRepository;
+    @Autowired
+    private BookCommentRepository bookCommentRepository;
 
     public List<AladinBook> bookListForBatch(AladinRequest aladinRequest) {
         var aladinBooks = this.getApi(AladinConstants.ITEM_LIST, aladinRequest).getItem();
@@ -41,7 +47,7 @@ public class AladinService {
 
         var aladinbook = aladinBooks.get(0);
         //코멘트 세팅
-        aladinbook.setBookCommentList(gptService);
+        aladinbook.settingBookCommentList(gptService);
         return aladinbook;
     }
 
@@ -61,9 +67,19 @@ public class AladinService {
                     .toEntity(AladinResponse.class);
             return response.getBody();
         } catch (Exception e) {
-            log.error("[알라딘] 에러 메세지 파싱 에러 code={}, errorMessage={}", response.getStatusCodeValue(), e.getMessage(), e);
-            throw new AladinException("파싱에러", HttpStatus.valueOf(response.getStatusCodeValue()));
+            log.error("[알라딘] 에러 메세지 파싱 에러 errorMessage={}", e.getMessage(), e);
+            throw new AladinException("파싱에러");
         }
 
+    }
+
+
+    public List<AladinBook> findAll() {
+        var aladinBooks = aladinBookRepository.findAll(Sort.by(Sort.Direction.DESC, "itemId"));
+        aladinBooks.stream().forEach(i -> {
+            var commentList = bookCommentRepository.findBookCommentsByAladinBookItemId(i.getItemId());
+            if (Objects.nonNull(commentList)) i.setBookCommentList(commentList);
+        });
+        return aladinBooks;
     }
 }

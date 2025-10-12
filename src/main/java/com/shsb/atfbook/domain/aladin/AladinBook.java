@@ -63,7 +63,11 @@ public class AladinBook {
     @OneToMany(mappedBy = "aladinBook", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BookComment> bookCommentList;
 
-    public void setBookCommentList(GptService gptService) {
+    public void setBookCommentList(List<BookComment> bookCommentList) {
+        this.bookCommentList = bookCommentList;
+    }
+
+    public void settingBookCommentList(GptService gptService) {
         List<BookComment> bookCommentList = new ArrayList<>();
 
         //책소개
@@ -76,6 +80,7 @@ public class AladinBook {
         this.setUserPhrase(bookCommentList);
         //목차
         this.setUserToc(bookCommentList);
+        bookCommentList.forEach(i -> i.setAladinBookItemId(getItemId()));
         this.bookCommentList = bookCommentList;
     }
 

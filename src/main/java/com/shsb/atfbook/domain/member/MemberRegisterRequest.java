@@ -7,5 +7,6 @@ import lombok.Data;
 
 public record MemberRegisterRequest(
         @NotBlank String loginId,
-        @NotBlank String password) {
+        @NotBlank String password,
+        @NotBlank String passwordCheck) {
 }
