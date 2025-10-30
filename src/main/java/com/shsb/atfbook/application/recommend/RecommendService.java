@@ -17,13 +17,13 @@ import java.util.function.Predicate;
 @Service
 public class RecommendService {
 
-    public void filter(List<AladinBook> newAladinBooks, RecommendRequest recommendRequest) {
-        if (ObjectUtils.isEmpty(newAladinBooks)) return;
-        newAladinBooks = newAladinBooks.stream()
+    public List<AladinBook> filter(List<AladinBook> newAladinBooks, RecommendRequest recommendRequest) {
+        if (ObjectUtils.isEmpty(newAladinBooks)) return List.of();
+        List<AladinBook> filtered = newAladinBooks.stream()
                 .filter(categoryFilter(recommendRequest.getCids()))
                 .filter(publicationDateFilter(this.anchorDate()))
                 .toList();
-
+        return filtered;
     }
 
     private String anchorDate() {

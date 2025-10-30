@@ -19,20 +19,19 @@ import java.util.stream.Collectors;
 public class RecommendRequest {
     private Member member;
     //private CategoryDto categoryDto;
-    private int slideN = 1;
     private List<History> histories;
     private HashSet<Integer> cids;
     private String queryType = "bestseller";
-    private int startIdx;
-
-    public int getSlideN() {
-        return slideN == 0 ? 1 : slideN;
-    }
+    private int start;
 
     public static RecommendRequest create(CategoryService categoryService) {
         RecommendRequest request = new RecommendRequest();
         List<Category> categories = categoryService.findAcceptedCategories();
         request.setCids(categories.stream().map(Category::getCid).collect(Collectors.toCollection(HashSet::new)));
         return request;
+    }
+
+    public void nextPage() {
+        start+= 1;
     }
 }

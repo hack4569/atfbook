@@ -32,7 +32,7 @@ public class BookBatchScheduler {
     private final GptService gptService;
     private final AladinBookRepository aladinBookRepository;
 
-    //@Scheduled(cron = "0 */1 * * * ?")
+    //
     //@Scheduled(cron = "0 30 2 * * *", zone = "Asia/Seoul")
     @Scheduled(cron = "0 0 2 * * *", zone = "Asia/Seoul")
     public void scheduleBestSellerBatch() {
@@ -45,19 +45,21 @@ public class BookBatchScheduler {
         while(retry < maxRetry) {
             aladinBookList = this.getAladinBookList(recommendReq);
             var newAladinBooks = aladinBookList.stream().filter(i -> !aleadyRegisteredBooks.contains(i.getItemId())).toList();
-            recommendService.filter(newAladinBooks, recommendReq);
-            if (ObjectUtils.isEmpty(aladinBookList)){
+            var newFilteredNewAladinBooks = recommendService.filter(newAladinBooks, recommendReq);
+            if (ObjectUtils.isEmpty(newFilteredNewAladinBooks)){
                 retry ++;
+                recommendReq.nextPage();
                 continue;
             } else {
                 retry = 0;
             }
-            this.saveNewAladinBooks(newAladinBooks);
+            this.saveNewAladinBooks(newFilteredNewAladinBooks);
+            recommendReq.nextPage();
         }
     }
 
     private void saveNewAladinBooks(List<AladinBook> newAladinBooks) {
-        if (!newAladinBooks.isEmpty()) {
+         if (!newAladinBooks.isEmpty()) {
             List<AladinBook> aladinDetailList = new ArrayList<>();
             newAladinBooks.forEach( aladinBook -> {
                 var aladinDetail = aladinService.bookDetail(AladinRequest.create(aladinBook.getIsbn13()));

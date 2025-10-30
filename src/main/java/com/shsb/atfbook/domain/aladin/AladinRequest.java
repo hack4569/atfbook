@@ -17,8 +17,6 @@ import java.lang.reflect.Field;
 @NoArgsConstructor
 @Builder
 public class AladinRequest {
-    private int startIdx = 1;
-    private int startN = 1;
     private int maxResults = 100;
     private int showBooksCount = RcmdConst.SHOW_BOOKS_COUNT;
     private long memberId;
@@ -61,6 +59,7 @@ public class AladinRequest {
     public static AladinRequest create(RecommendRequest recommendRequest){
         AladinRequest aladinRequest = AladinRequest.builder()
                 .querytype(recommendRequest.getQueryType())
+                .start(recommendRequest.getStart())
                 .build();
         return aladinRequest;
     }
