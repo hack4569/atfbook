@@ -31,9 +31,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(true);
         Object loginMember = session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (session == null || loginMember == null) {
-            return new Member();
-        }
 
         return loginMember;
     }

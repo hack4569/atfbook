@@ -1,4 +1,4 @@
-package com.shsb.atfbook.application.login;
+package com.shsb.atfbook.application.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

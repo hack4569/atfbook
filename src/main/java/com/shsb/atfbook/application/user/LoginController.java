@@ -1,12 +1,14 @@
-package com.shsb.atfbook.application.login;
+package com.shsb.atfbook.application.user;
 
 import com.shsb.atfbook.application.SessionConst;
 import com.shsb.atfbook.application.member.MemberRepository;
+import com.shsb.atfbook.application.recommend.argumentresolver.Login;
 import com.shsb.atfbook.domain.member.Member;
 import com.shsb.atfbook.domain.member.MemberRegisterRequest;
 import com.shsb.atfbook.domain.member.PasswordEncoder;
 import com.shsb.atfbook.domain.shared.ScriptUtils;
 import com.shsb.atfbook.domain.shared.SessionUtils;
+import com.shsb.atfbook.domain.shared.SpringUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,15 +17,18 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
+import java.util.Map;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = {"/users"})
+@RequestMapping(value = {"/user"})
 public class LoginController {
     private final LoginService loginService;
     private final MemberRepository memberRepository;
@@ -96,13 +101,13 @@ public class LoginController {
             Member member = Member.register(form, passwordEncoder);
 
             loginService.saveMember(member);
-            //response.sendRedirect("/users/login");
+            //response.sendRedirect("/user/login");
             //ScriptUtils.alertAndRedirect(response, "회원가입이 완료되었습니다. 좋은 책 찾길 바랍니다^^", "/users/login");
         } catch (Exception e) {
             log.error("joinAction error = {}", e.getMessage(), e);
             return "user/join";
         }
-        return "redirect:/users/login?msg=joinSuccessMsg";
+        return "redirect:/user/login?msg=joinSuccessMsg";
     }
 
     @GetMapping("/logout")
@@ -124,6 +129,20 @@ public class LoginController {
             }
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/mypage")
+    public String mypage(@Login Member loginMember, Model model, HttpServletResponse response) throws Exception{
+        if (loginMember == null) {
+            ScriptUtils.alert(response,"로그인이 필요합니다.");
+            return "user/login";
+        }
+
+        SpringUtils.addAttributes(
+                model,
+                Map.of("loginMember", loginMember)
+        );
+        return "user/mypage";
     }
 
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/default :: layout( ~{::main})}">
+<body class="device">
+<main class="app">
+    <th:block th:replace="~{fragment/header :: defaultHeader}"/>
+    <main class="app-main">
+        <section class="user-info">
+            <h2 class="user-info__title">내 정보</h2>
+            <dl class="user-info-list">
+                <dt class="user-info-list__name">아이디</dt>
+                <dd class="user-info-list__value">ISJP0404</dd>
+            </dl>
+            <a href="#" class="button button--black user-info__edit-button">수정하기</a>
+        </section>
+        <th:block th:replace="~{fragment/navbar :: navbar}"/>
+        <section class="favorite-list">
+            <h2 class="favorite-list__title">찜목록</h2>
+            <ul class="favorite-list__list">
+                <li class="favorite-list__item">
+                    <div class="book-item">
+                        <img class="book-item__thumbnail" src="img/book_old-woman.png" />
+                        <div class="book-item__content">
+                            <div class="book-item__text">
+                                <h3 class="book-item__title">살인 짜는 플롯 노파</h3>
+                                <p class="book-item__publisher">출판사 : 문예출판사</p>
+                                <p class="book-item__author">저자 : 에리히 프롬</p>
+                            </div>
+
+                            <nav class="book-item__nav">
+                                <a class="button book-item__review-button">후기 목록</a>
+                                <a class="circle-button circle-button--back book-item__show-button"></a>
+                            </nav>
+
+                        </div>
+                    </div>    </li>
+            </ul>
+        </section>
+        <section class="recommendation-list">
+            <h3 class="recommendation-list__title">나의 책추천 목록</h3>
+            <ul class="recommendation-list__list">
+                <li class="recommendation-list__item">
+                    <img class="recommendation-list__thumbnail" src="img/book_think-and-grow-rich.png" />
+                    <p class="recommendation-list__book-title">이 책은 돈 버는 법에 관한 이야...</p>
+                </li>
+                <li class="recommendation-list__item">
+                    <img class="recommendation-list__thumbnail" src="img/book_art-of-love.png" />
+                    <p class="recommendation-list__book-title">사랑의 기술</p>
+                </li>
+                <li class="recommendation-list__item">
+                    <img class="recommendation-list__thumbnail" src="img/book_immune.png" />
+                    <p class="recommendation-list__book-title">면역</p>
+                </li>
+                <li class="recommendation-list__item">
+                    <img class="recommendation-list__thumbnail" src="img/book_west-wind.png" />
+                    <p class="recommendation-list__book-title">서쪽 바람</p>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+</main>
+<script src="js/lodash.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+<script src="js/application.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.shsb.atfbook.application.login;
+package com.shsb.atfbook.application.user;
 
 import com.shsb.atfbook.application.member.MemberRepository;
 import com.shsb.atfbook.domain.member.Member;

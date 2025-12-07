@@ -1,0 +1,30 @@
+
+    <th:block th:fragment="defaultHeader">
+        <header class="global-header" id="mainHeader">
+        <a href="#" class="icon-button global-header__show-menu-button">
+            <span class="icon-hamburger icon-button__icon"></span>
+        </a>
+        </header>
+    </th:block>
+
+    <th:block th:fragment="recommendHeader">
+        <header class="global-header" id="mainHeader">
+        <!--        <a href="#" class="icon-button icon-button&#45;&#45;on global-header__favorite-button">-->
+        <!--            <img class="icon-heart icon-heart&#45;&#45;on icon-button__icon icon-button__icon&#45;&#45;on" src="img/icon_heart&#45;&#45;on.png" />-->
+        <!--            <img class="icon-heart icon-heart&#45;&#45;off icon-button__icon icon-button__icon&#45;&#45;off" src="img/icon_heart&#45;&#45;off.png" />-->
+        <!--        </a>-->
+        <button type="button" class="book-category-button global-header__page-title ">자기계발서</button>
+        <ul class="book-category-list" role="menu">
+            <li th:each="item : ${fullCategoryList}"
+                th:class="'book-category-item' + (${item.getSubCid()} == ${selectedCategory.getSubCid()} ? ' on' : '')">
+                <a th:href="@{'?subCid=' + ${item.getSubCid()}}"
+                   class="book-category-option"
+                   th:text="${item.getDepth1()}"></a>
+            </li>
+        </ul>
+        <a href="#" class="icon-button global-header__show-menu-button">
+            <span class="icon-hamburger icon-button__icon"></span>
+        </a>
+        </header>
+    </th:block>
+
