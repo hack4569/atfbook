@@ -42,13 +42,17 @@ public class RecommendController {
     }
 
     private List<RecommendView> getAladinBookList(RecommendRequest recommendRequest, Member loginMember) {
-        List<History> histories = historyRepository.findHistoriesByMemberId(loginMember.getId());
+        if (loginMember != null) {
+            List<History> histories = historyRepository.findHistoriesByMemberId(loginMember.getId());
+            recommendRequest.setHistories(histories);
+        }
+
         var aladinBooks = aladinService.findAll();
         if (ObjectUtils.isEmpty(aladinBooks)) throw new AladinException("더이상 추천드릴 책이 없습니다.");
-        recommendRequest.setHistories(histories);
+
         recommendService.filterForUser(aladinBooks, recommendRequest);
         if (ObjectUtils.isEmpty(aladinBooks)) {
-            historyRepository.deleteHistoriesByMemberId(loginMember.getId());
+            if (loginMember != null) historyRepository.deleteHistoriesByMemberId(loginMember.getId());
             return this.getAladinBookList(recommendRequest, loginMember);
         }
         return this.showUserData(aladinBooks);

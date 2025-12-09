@@ -1,8 +1,6 @@
 package com.shsb.atfbook.domain.like;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="like")
+@Table(name="like_book")
 public class Like {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
+    @Column(nullable = false)
     private int itemId;
+    @Column(nullable = false)
     private String loginId;
     @CreatedDate
     private LocalDateTime created;

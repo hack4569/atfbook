@@ -34,7 +34,7 @@ public class BookBatchScheduler {
 
     //
     //@Scheduled(cron = "0 30 2 * * *", zone = "Asia/Seoul")
-    @Scheduled(cron = "0 0 2 * * *", zone = "Asia/Seoul")
+    //@Scheduled(cron = "0 0 2 * * *", zone = "Asia/Seoul")
     public void scheduleBestSellerBatch() {
         RecommendRequest recommendReq = RecommendRequest.create(categoryService);
 

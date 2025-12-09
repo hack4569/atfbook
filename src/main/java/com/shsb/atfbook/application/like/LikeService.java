@@ -20,7 +20,7 @@ public class LikeService {
 
     @Transactional
     public void like(Like like){
-        likeRepository.findById(like.getLikeId()).ifPresentOrElse(
+        likeRepository.findByItemIdAndLoginId(like.getItemId(), like.getLoginId()).ifPresentOrElse(
                 existing -> likeRepository.deleteById(existing.getLikeId()),
                 () -> likeRepository.save(like)
         );

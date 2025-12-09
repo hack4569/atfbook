@@ -2,7 +2,7 @@
 <html th:replace="~{layout/default :: layout( ~{::main})}">
 
 <body class="device">
-<main th:class="${loginMember == null} ? 'app app--dimmed' : 'app'">
+<main th:class="app">
     <th:block th:replace="~{fragment/header :: recommendHeader}"/>
     <main class="app-main" id="mainApp">
         <ul class="book-summaries"> <!--book-summaries--load-json-->
@@ -62,7 +62,7 @@
     </main>
 
     <th:block th:replace="~{fragment/navbar :: navbar}"/>
-    <dialog th:if="${loginMember.id == 0}" id="popupInfo1" class="guide-dialog" open onclick="this.classList.toggle('none')">
+    <dialog th:if="${loginMember == null}" id="popupInfo1" class="guide-dialog" open onclick="this.classList.toggle('none')">
         <a href="javascript:void(0)" class="close-button guide-dialog__close-button"></a>
         <img class="guide-dialog__icon" src="img/info.png" />
 <!--        <h3 class="guide-dialog__title">안녕하세요!</h3>-->
@@ -71,7 +71,7 @@
             <input type="checkbox" class="closeDay"> 오늘 하루 보지 않기
         </div>
     </dialog>
-    <dialog th:if="${loginMember.id == 0}" id="popupInfo2" class="guide-dialog" open onclick="this.classList.toggle('none')">
+    <dialog th:if="${loginMember == null}" id="popupInfo2" class="guide-dialog" open onclick="this.classList.toggle('none')">
         <a href="javascript:void(0)" class="close-button guide-dialog__close-button"></a>
         <img class="guide-dialog__icon" src="img/guide.png" />
         <p class="guide-dialog__content">상하좌우 슬라이드 해보세요.<br>좋은 책들을 추천해드립니다!</p>

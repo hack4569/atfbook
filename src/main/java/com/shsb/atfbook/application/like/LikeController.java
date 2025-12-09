@@ -43,6 +43,6 @@ public class LikeController {
     public ResponseEntity likeAction(@Login Member member, @PathVariable("itemId") int itemId) {
         if (member == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         likeService.like(Like.create(itemId, member.getLoginId()));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new LikeResponse(true));
     }
 }

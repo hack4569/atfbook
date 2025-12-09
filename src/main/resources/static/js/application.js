@@ -14,12 +14,32 @@
         });
     }
 
-    // icon-button 클래스가 있는 엘리먼트들은 공통적으로 토글기능을 넣어서, 아이콘이 바뀌도록 합니다.
-    const iconButtons = doc.querySelectorAll('.icon-button');
-    iconButtons.forEach((iconButton) => {
-        iconButton.addEventListener('click', (e) => {
-            e.currentTarget.classList.toggle('icon-button--on');
-        });
+
+    const heart = document.getElementById('heart');
+
+    heart.addEventListener('click', (e) => {
+        const activeSummary = document.querySelector(".book-summary--active");
+        const itemIdInput = activeSummary.querySelector('input[name="itemId"]');
+        const itemId = itemIdInput ? itemIdInput.value : null;
+        console.log(itemId);
+        if (itemId) {
+            $.ajax({
+                url: `/like/${itemId}`,
+                type: "POST",
+                success: (response) => {
+                    console.log(response, 'like response');
+                    // 성공한 경우에만 토글 실행
+                    e.currentTarget.classList.toggle('icon-button--on');
+                },
+                error: (error) => {
+                    console.log(error, 'error');
+                    console.error('Like action failed:', error);
+                    // 실패 시 토글하지 않음
+                }
+            });
+        } else {
+            console.warn('itemId not found');
+        }
     });
 
     // 버튼을 누르면 '자세한 추천글' 모달창이 뜨도록 합니다.
