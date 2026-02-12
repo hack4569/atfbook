@@ -32,14 +32,13 @@ import org.springframework.web.util.WebUtils;
 import java.util.Map;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping(value = {"/like"})
 public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/{itemId}")
-    @ResponseBody
     public ResponseEntity likeAction(@Login Member member, @PathVariable("itemId") int itemId) {
         if (member == null) return new ResponseEntity(HttpStatus.BAD_REQUEST);
         likeService.like(Like.create(itemId, member.getLoginId()));

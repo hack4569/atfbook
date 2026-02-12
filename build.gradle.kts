@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.security:spring-security-core")
 	implementation("org.springframework.security:spring-security-crypto")
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("com.mysql:mysql-connector-j")

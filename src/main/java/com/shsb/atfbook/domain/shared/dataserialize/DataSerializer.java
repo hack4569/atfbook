@@ -1,4 +1,4 @@
-package com.shsb.atfbook.utils.dataserialize;
+package com.shsb.atfbook.domain.shared.dataserialize;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

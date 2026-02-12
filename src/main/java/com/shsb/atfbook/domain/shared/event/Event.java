@@ -1,7 +1,7 @@
-package com.shsb.atfbook.utils.event;
+package com.shsb.atfbook.domain.shared.event;
 
-import com.shsb.atfbook.utils.dataserialize.DataSerializer;
-import com.shsb.atfbook.utils.event.payload.EventPayload;
+import com.shsb.atfbook.domain.shared.dataserialize.DataSerializer;
+import com.shsb.atfbook.domain.shared.event.payload.EventPayload;
 import lombok.Getter;
 
 @Getter
